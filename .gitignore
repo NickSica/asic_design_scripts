@@ -11,6 +11,7 @@ logs
 *.mr
 *.pvl
 *.syn
+*.dlib
 clog*
 feas_cell_history
 feas_cell_history.*
