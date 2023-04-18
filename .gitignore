@@ -15,6 +15,10 @@ Milkyway.cmd*
 *.pvl
 *.syn
 *.dlib
+*.ndm
+*.ems
+alib-52
+PreFrameCheck
 clog*
 feas_cell_history
 feas_cell_history.*
