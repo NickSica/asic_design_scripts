@@ -1,9 +1,12 @@
 .nfs*
+.[0-9]*
 output
 reports*
 const
 work
 logs
+Milkyway.log*
+Milkyway.cmd*
 *.log
 *.svf
 *.txt
