@@ -9,11 +9,15 @@ alias ls='ls -ltrh --color'
 PATH=$PATH:$HOME/bin
 export TCL_LIBRARY=/usr/share/tcl8.6/
 
+tools_loc=/home/nick/tools
+
 oss_chip(){
-export PATH=$PATH:/home/tools/oss-cad-suite/bin
-export PATH=$PATH:/home/tools/openroad/bin
+export PATH=$PATH:$tools_loc/oss-cad-suite/bin
+export PATH=$PATH:$tools_loc/openroad/bin
 }
-export -f oss_chip
+if [[ $SHELL == "/bin/bash" ]]; then
+	export -f oss_chip
+fi
 
 ###################################################
 ################### Tool setup ####################
@@ -25,17 +29,17 @@ export CDS_LOG_PATH=./logs
 ##  Cadence setup
 #####################################################
 ##export CDS_LIC_FILE=5228@license04.coe.drexel.edu
-export CDS_ROOT=/home/tools/cadence/install/IC618
+export CDS_ROOT=$tools_loc/cadence/install/IC618
 #export CDS_INST_DIR=$CDS_ROOT
 export CDS=$CDS_ROOT
 export CDSHOME=$CDS_ROOT
-export ASSURA_HOME=/home/tools/cadence/install/ASSURA41
-export INNOVUS_HOME=/home/tools/cadence/install/INNOVUS171
-export QRC_HOME=/home/tools/cadence/install/EXT182
-export SPECTRE_HOME=/home/tools/cadence/install/SPECTRE211
-export INCISIVE_HOME=/home/tools/cadence/install/INCISIVE152
-export INTEGRAND_HOME=/home/tools/cadence/install/INTEGRAND63
-#export LIBERATE_HOME=/home/tools/cadence/install/LIBERATE/tools/liberate
+export ASSURA_HOME=$tools_loc/cadence/install/ASSURA41
+export INNOVUS_HOME=$tools_loc/cadence/install/INNOVUS171
+export QRC_HOME=$tools_loc/cadence/install/EXT182
+export SPECTRE_HOME=$tools_loc/cadence/install/SPECTRE211
+export INCISIVE_HOME=$tools_loc/cadence/install/INCISIVE152
+export INTEGRAND_HOME=$tools_loc/cadence/install/INTEGRAND63
+#export LIBERATE_HOME=$tools_loc/cadence/install/LIBERATE/tools/liberate
 export LM_LICENSE_FILE=5228@license04.coe.drexel.edu:7171@license03.coe.drexel.edu
 export SNPSLMD_LICENSE_FILE=27909@License02.coe.drexel.edu
 export SPECTRE_DEFAULTS=-E
@@ -45,8 +49,8 @@ export CDS_LOAD_ENV=addCWD
 
 ##removes warnings when starting virtuoso
 export W3264_NO_HOST_CHECK=1
-export OA_UNSUPPORTED_PLAT=linux_rhel80
-export OA_HOME=/home/tools/cadence/install/IC618/oa_v22.60.082
+export OA_UNSUPPORTED_PLAT=linux_rhel90
+export OA_HOME=$tools_loc/cadence/install/IC618/oa_v22.60.082
 
 #####################################################
 ###  Synopsys Tool Setup
@@ -54,7 +58,7 @@ export OA_HOME=/home/tools/cadence/install/IC618/oa_v22.60.082
 SNPS_TOOL_VERS=T-2022.03-SP4
 SNPS_TOOL_VER2=U-2023.03-1
 SNPS_TOOL_VER3=U-2023.03-2
-SNPS_ROOT=/home/tools/synopsys
+SNPS_ROOT=$tools_loc/synopsys
 export ICC_HOME=$SNPS_ROOT/icc/$SNPS_TOOL_VERS
 export PT_HOME=$SNPS_ROOT/prime/$SNPS_TOOL_VERS
 export MW_HOME=$SNPS_ROOT/prime/$SNPS_TOOL_VERS
@@ -94,7 +98,7 @@ export LC_HOME=$SNPS_ROOT/lc/$SNPS_TOOL_VERS
 # 1) Modify the path to Calibre installation #############
 # 2) Modify the LM_LICENSE_FILE with your installation ###
 ##########################################################
-export MGC_HOME=/home/tools/mentor/aoi_cal_2015.4_33.23
+export MGC_HOME=$tools_loc/mentor/aoi_cal_2015.4_33.23
 #export LM_LICENSE_FILE=${LM_LICENSE_FILE}:27909@license02.coe.drexel.edu
 
 
@@ -151,7 +155,7 @@ export IUSDIR=$INCISIVE_HOME
 ##  Modify the line below with the path to your installation
 ##  of StarRCXT from Synopsys
 #################################################
-export RCXT_HOME_DIR=/home/tools/synopsys/starrc/T-2022.03-SP4
+export RCXT_HOME_DIR=$tools_loc/synopsys/starrc/T-2022.03-SP4
 export AVANTI_STAR_HOME_DIR=$RCXT_HOME_DIR
 #LD_LIBRARY_PATH="$LD_LIBRARY_PATH":"$RCXT_HOME_DIR/lib"
 
@@ -219,7 +223,9 @@ PATH=$PATH:$LC_HOME/bin
 export PATH
 #export LD_LIBRARY_PATH
 }
-export -f vlsi_setup
+if [[ $SHELL == "/bin/bash" ]]; then
+	export -f vlsi_setup
+fi
 
 ###################################################
 ################## NCSU function ##################
@@ -230,7 +236,9 @@ export PDK_DIR=/home/tech/NCSU_pdks/FreePDK45
 
 NANGATE=/home/tech/NCSU_pdks/NangateOpenCellLibrary_PDKv1_3_v2010_12
 }
-export -f ncsu
+if [[ $SHELL == "/bin/bash" ]]; then
+	export -f ncsu
+fi
 
 ###################################################
 ################ 3D NCSU function #################
@@ -241,7 +249,9 @@ export PDK_DIR=/home/tech/NCSU_pdks/FreePDK3D45
 
 NANGATE=/home/tech/NCSU_pdks/NangateOpenCellLibrary_PDKv1_3_v2010_12
 }
-export -f 3D_ncsu
+if [[ $SHELL == "/bin/bash" ]]; then
+	export -f 3D_ncsu
+fi
 
 ###################################################
 ################## IBM function ##################
@@ -250,7 +260,9 @@ ibm90(){
 vlsi_setup
 export PDK_DIR=/home/tech/IBM_PDK
 }
-export -f ibm90
+if [[ $SHELL == "/bin/bash" ]]; then
+	export -f ibm90
+fi
 
 ###################################################
 ################# TSMC65 function #################
@@ -259,9 +271,9 @@ tsmc65(){
 vlsi_setup
 export PDK_DIR=/home/tech/TSMC65
 }
-export -f tsmc65
-
-
+if [[ $SHELL == "/bin/bash" ]]; then
+	export -f tsmc65
+fi
 
 ###################################################
 ################## ST65 function ##################
@@ -384,8 +396,9 @@ source $UK_PATH/lib/csh/uk-tailer.csh;
 
 exec bash;'
 }
-export -f st65
-
+if [[ $SHELL == "/bin/bash" ]]; then
+	export -f st65
+fi
 
 ###################################################
 ################# AMS350 function #################
@@ -402,4 +415,6 @@ export PATH=$PATH:$AMS_DIR/programs/bin
 
 export PATH
 }
-export -f ams_350interposer
+if [[ $SHELL == "/bin/bash" ]]; then
+	export -f ams_350interposer
+fi
