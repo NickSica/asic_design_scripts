@@ -1,0 +1,2 @@
+StarXtract star.cmd
+StarXtract -convert_gpd_to_netname RTWO_kings_extracted.gpd RTWO_kings_extracted.spf
