@@ -1,0 +1,11 @@
+CORNER_NAME: typical
+TCAD_GRD_FILE: /home/tech/TSMC65GP/RC_Extraction/Synopsys/RC_Star-RCXT_crn65g+_1p9m_6x1z1u_mim7_ut-alrdl_5corners_1.0a/RC_Star-RCXT_crn65gp_1p09m+ut-alrdl_6x1z1u_mim_typical/crn65gp_1p09m+ut-alrdl_6x1z1u_mim_typical.nxtgrd
+OPERATING_TEMPERATURE: 25
+
+CORNER_NAME: rcbest
+TCAD_GRD_FILE: /home/tech/TSMC65GP/RC_Extraction/Synopsys/RC_Star-RCXT_crn65g+_1p9m_6x1z1u_mim7_ut-alrdl_5corners_1.0a/RC_Star-RCXT_crn65gp_1p09m+ut-alrdl_6x1z1u_mim_rcbest/crn65gp_1p09m+ut-alrdl_6x1z1u_mim_rcbest.nxtgrd
+OPERATING_TEMPERATURE: 25
+
+CORNER_NAME: rcworst
+TCAD_GRD_FILE: /home/tech/TSMC65GP/RC_Extraction/Synopsys/RC_Star-RCXT_crn65g+_1p9m_6x1z1u_mim7_ut-alrdl_5corners_1.0a/RC_Star-RCXT_crn65gp_1p09m+ut-alrdl_6x1z1u_mim_rcworst/crn65gp_1p09m+ut-alrdl_6x1z1u_mim_rcworst.nxtgrd
+OPERATING_TEMPERATURE: 25
