@@ -1,0 +1,487 @@
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+# User specific environment and startup programs
+alias ls='ls -ltrh --color'
+PATH=$PATH:$HOME/bin
+export TCL_LIBRARY=/usr/share/tcl8.6/
+
+ansys_setup(){
+    export ANSYS_EM_ROOT=/home/tools/ansys/AnsysEM/v232/Linux64
+    export HELIC_ROOT=/home/tools/ansys/helic_2023.R2
+    export HELIC_PDK_ROOT=/home/tools/ansys/helic_TSMC65GP
+    export PATH=$PATH:$ANSYS_EM_ROOT
+    export PATH=$PATH:$HELIC_ROOT
+    export LD_LIBRARY_PATH=$HELIC_ROOT/lib
+    export ANSYSLMD_LICENSE_FILE=1055@license09.coe.drexel.edu
+}
+export -f ansys_setup
+
+oss_chip(){
+export PATH=$PATH:/home/tools/oss-cad-suite/bin
+export PATH=$PATH:/home/tools/openroad/bin
+export PATH=$PATH:/home/tools/Surelog/bin
+export PATH=$PATH:/home/tools/verible/bin
+export PATH=$PATH:/home/tools/sv2v/bin
+export PATH=$PATH:/home/tools/abc
+}
+export -f oss_chip
+
+###################################################
+################### Tool setup ####################
+###################################################
+vlsi_setup(){
+export CDS_LOG_PATH=./logs
+
+#####################################################
+##  Cadence setup
+#####################################################
+##export CDS_LIC_FILE=5228@license04.coe.drexel.edu
+CADENCE_VERS=IC231
+
+export CDS_ROOT=/home/tools/cadence/install/$CADENCE_VERS
+
+#export CDS_INST_DIR=$CDS_ROOT
+export CDS=$CDS_ROOT
+export CDSHOME=$CDS_ROOT
+#export ASSURA_HOME=/home/tools/cadence/install/ASSURA41
+#export ASSURAHOME=$ASSURA_HOME
+export INNOVUS_HOME=/home/tools/cadence/install/INNOVUS211
+export GENUS_HOME=/home/tools/cadence/install/GENUS211
+export QRC_HOME=/home/tools/cadence/install/QUANTUS231
+#export SPECTRE_HOME=/home/tools/cadence/install/SPECTRE211
+export SPECTRE_HOME=/home/tools/cadence/install/SPECTRE231
+export INCISIVE_HOME=/home/tools/cadence/install/INCISIVE152
+#export EMX_HOME=/home/tools/cadence/install/INTEGRAND63
+export EMX_HOME=/home/tools/cadence/install/EMX20232
+export LIBERATE_HOME=/home/tools/cadence/install/LIBERATE231
+export LM_LICENSE_FILE=5228@license04.coe.drexel.edu:7171@license03.coe.drexel.edu
+#export LM_LICENSE_FILE=7171@license03.coe.drexel.edu
+export SNPSLMD_LICENSE_FILE=27909@license02.coe.drexel.edu
+export SPECTRE_DEFAULTS=-E
+export CDS_Netlisting_Mode=Analog
+export CDS_AUTO_64BIT=ALL
+export CDS_LOAD_ENV=addCWD
+export CDS_ENABLE_EXP_PCELL=TRUE
+
+##removes warnings when starting virtuoso
+export W3264_NO_HOST_CHECK=1
+if [ $CADENCE_VERS == IC617 ]; then
+    export OA_UNSUPPORTED_PLAT=linux_rhel50_gcc48x
+    OA_VERS=oa_v22.50.095
+elif [ $CADENCE_VERS == IC618 ]; then
+    export OA_UNSUPPORTED_PLAT=linux_rhel70_gcc93x_64
+    OA_VERS=oa_v22.60.082
+elif [ $CADENCE_VERS == IC231 ]; then
+    export OA_UNSUPPORTED_PLAT=linux_rhel80
+    #export OA_UNSUPPORTED_PLAT=linux_rhel70_gcc93x
+    OA_VERS=oa_v22.61.015
+fi
+export OA_HOME=/home/tools/cadence/install/$CADENCE_VERS/$OA_VERS
+#LD_LIBRARY_PATH=$CDS_ROOT/tools.lnx86/lib/64bit/RHEL/RHEL8
+
+#####################################################
+###  Synopsys Tool Setup
+######################################################
+
+
+SNPS_ROOT=/home/tools/synopsys
+SNPS_TOOL_VERS=Q-2019.12-SP1
+export MW_HOME=$SNPS_ROOT/prime/$SNPS_TOOL_VERS
+export ICC_HOME=$SNPS_ROOT/icc/$SNPS_TOOL_VERS
+
+SNPS_TOOL_VERS=T-2022.03-SP4
+export PT_HOME=$SNPS_ROOT/prime/$SNPS_TOOL_VERS
+
+SNPS_TOOL_VERS=T-2022.06-SP1
+export HSPICE_HOME=$SNPS_ROOT/hspice/$SNPS_TOOL_VERS/hspice
+export VCS_HOME=$SNPS_ROOT/vcs/$SNPS_TOOL_VERS
+
+SNPS_TOOL_VERS=U-2022.12-SP1
+export DC_HOME=$SNPS_ROOT/syn/$SNPS_TOOL_VERS
+export IC3D_HOME=$SNPS_ROOT/3dic/$SNPS_TOOL_VERS
+export LC_HOME=$SNPS_ROOT/lc/$SNPS_TOOL_VERS
+
+SNPS_TOOL_VERS=U-2022.12-SP4-3
+export ICV_HOME=/home/tools/synopsys/icvalidator/$SNPS_TOOL_VERS
+
+SNPS_TOOL_VERS=U-2022.12-SP5-2
+export SS_HOME=$SNPS_ROOT/siliconsmart/$SNPS_TOOL_VERS
+export RCXT_HOME_DIR=$SNPS_ROOT/starrc/$SNPS_TOOL_VERS
+export AVANTI_STAR_HOME_DIR=$RCXT_HOME_DIR
+
+SNPS_TOOL_VERS=U-2022.12-SP6
+export ICC2_HOME=$SNPS_ROOT/icc2/$SNPS_TOOL_VERS
+
+SNPS_TOOL_VERS=U-2023.03-1
+export PRIMESIMXA_HOME=$SNPS_ROOT/xa/$SNPS_TOOL_VERS
+export PRIMESIM_HOME=$SNPS_ROOT/primesim/$SNPS_TOOL_VERS
+
+SNPS_TOOL_VERS=U-2023.03-2
+export PRIMEWAVE_HOME=$SNPS_ROOT/primewave/$SNPS_TOOL_VERS
+export CUSTCOMP_HOME=$SNPS_ROOT/customcompiler/$SNPS_TOOL_VERS
+
+SNPS_TOOL_VERS=W-2024.09-SP1
+export FUSION_HOME=$SNPS_ROOT/fusioncompiler/$SNPS_TOOL_VERS
+
+# This is for DC and LC integration with each other
+export SYNOPSYS_LC_ROOT=$LC_HOME
+#source $HSPICE_HOME/bin/bashrc.meta
+
+##########################################################
+######## Environment for Siemens ######################### 
+##########################################################
+#export MGC_HOME=/home/tools/mentor/aok_cal_2022.4_16.8
+#export MGC_HOME=/home/tools/mentor/aok_cal_2023.4_17.10
+export MGC_HOME=/home/tools/mentor/aok_cal_2025.1_25.13
+export CALIBRE_HOME=$MGC_HOME
+#export LM_LICENSE_FILE=${LM_LICENSE_FILE}:27909@license02.coe.drexel.edu
+export QUESTA_HOME=/home/tools/mentor/questasim
+
+
+#####################################################
+###  Initial LD_LIBRARY_PATH Setup
+###  MAKE SURE THIS IS EARLY ON
+######################################################
+#if [ -z "${LD_LIBRARY_PATH}" ]; then
+#   LD_LIBRARY_PATH=$ASSURA_HOME/tools/lib/64bit/RHEL/RHEL8
+#else
+#   LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ASSURA_HOME/tools/lib/64bit/RHEL/RHEL8
+#fi
+#LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CDS_ROOT/tools/Qt/v5/64bit/lib
+
+#####################################################
+###  Modify the line below with the path to your installation
+###  of MMSIM from Cadence
+######################################################
+#LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SPECTRE_HOME/tools/lib
+
+
+
+#####################################################
+##  Modify the line below with the path to your installation
+##  of ADMS / Eldo from Mentor
+#####################################################
+export MGC_AMS_HOME=$MGC_HOME
+#set path=($path $MGC_AMS_HOME/bin)
+
+#####################################################
+##  Check and modify the line below 
+#####################################################
+
+export LANG=C
+export LC_COLLATE=C
+export LC_CTYPE=C
+export LC_MESSAGES=C
+export LC_MONETARY=C
+export LC_NUMERIC=C
+export LC_TIME=C
+
+#################################################
+##  Modify the line below with the path to your installation
+##  of QRC/EXT
+#################################################
+#### Done up above
+#export QRC_HOME=/cmp3/cad/cdsext15_14_000
+#LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$QRC_HOME/tools/lib/64bit
+
+#################################################
+##  Modify the line below with the path to your installation
+##  of PVS
+#################################################
+#export PVS_HOME=/cmp3/cad/cdspvs15_14_000
+#set path=($path $PVS_HOME/tools/bin $PVS_HOME/bin)
+#LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PVS_HOME/tools/lib
+
+##########################################################
+# Cadence INCISIVE  IUS path.
+##########################################################
+export IUSDIR=$INCISIVE_HOME
+#LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$IUSDIR/tools/lib
+
+#######################################################
+# Modify the LM_LICENSE_FILE with your installation ###
+######  (Cadence license server) ######################
+#######################################################
+#export LM_LICENSE_FILE=5287@cimeldap:5280@cimekey1
+
+#################################################
+##  Keysight ADS and GoldenGate Setup
+#################################################
+# set LICENSE_FILE = <put here your Keysight license server>
+# export ADS_LICENSE_FILE=$LICENSE_FILE
+# export LM_LICENSE_FILE="${LM_LICENSE_FILE}:${LICENSE_FILE}"
+######### ADS #########
+# export IDF_CDF_VERSION=6.1.7
+
+# export HPEESOF_DIR=/cmp3/cad/ads2012_08_hf2
+# set path = ($path $HPEESOF_DIR $HPEESOF_DIR/bin)
+
+# export COMPL_DIR=$HPEESOF_DIR
+# setenv SIMARCH linux_x86_64
+# export CDS_LOAD_ENV=CSF
+# source $HPEESOF_DIR/bin/setCSF.csh
+# export RFDE_CDS_VERSION =6.1.5
+# export RFDE_SKILL_DIR=$HPEESOF_DIR/idf/skill/6.1.5/64bit
+# LD_LIBRARY_PATH="$LD_LIBRARY_PATH":"$HPEESOF_DIR/Momentum/11.20/linux_x86_64/lib"
+# set path = ($path ${HPEESOF_DIR}/bin/linux_x86_64 ${HPEESOF_DIR}/Momentum/11.20/linux_x86_64/bin)
+# setenv ossSimUserHnlDir  $HPEESOF_DIR/idf/ads_site/hnl
+# setenv ossSimUserSiDir  $HPEESOF_DIR/idf/ads_site/si
+
+########## Goldengate ##########
+#setenv XPEDION <put here the path of your goldengate software>
+#set path = ($path $XPEDION $XPEDION/bin)
+
+#######################################################
+#######################################################
+
+export OAHOME=$OA_HOME
+PATH=$PATH:$OA_HOME/bin
+PATH=$PATH:$CDS_ROOT/tools/bin
+PATH=$PATH:$CDS_ROOT/tools/dfII/bin
+PATH=$PATH:$CDS_ROOT/share/bin
+#PATH=$PATH:$ASSURA_HOME/bin
+PATH=$PATH:$INNOVUS_HOME/tools.lnx86/innovus/bin
+PATH=$PATH:$GENUS_HOME/tools.lnx86/bin
+PATH=$PATH:$EMX_HOME/tools/emx/bin
+PATH=$PATH:$IUSDIR/tools/dfII/bin:$IUSDIR/tools/bin
+PATH=$PATH:$QRC_HOME/bin
+PATH=$PATH:$QRC_HOME/tools/bin
+PATH=$PATH:$SPECTRE_HOME/tools.lnx86/spectre/bin
+PATH=$PATH:$SPECTRE_HOME/tools/bin:$SPECTRE_HOME/bin
+PATH=$PATH:$LIBERATE_HOME/bin
+PATH=$PATH:$INCISIVE_HOME/bin
+PATH=$PATH:$MGC_HOME/bin
+PATH=$PATH:$QUESTA_HOME/bin
+PATH=$PATH:$RCXT_HOME_DIR/bin
+PATH=$PATH:$ICV_HOME/bin
+PATH=$PATH:$ICC2_HOME/bin
+PATH=$PATH:$ICC_HOME/bin
+PATH=$PATH:$PT_HOME/bin
+PATH=$PATH:$MW_HOME/bin
+PATH=$PATH:$DC_HOME/bin
+PATH=$PATH:$HSPICE_HOME/bin
+PATH=$PATH:$PRIMESIMXA_HOME/bin
+PATH=$PATH:$PRIMESIM_HOME/bin
+PATH=$PATH:$PRIMEWAVE_HOME/bin
+PATH=$PATH:$CUSTCOMP_HOME/bin
+PATH=$PATH:$FUSION_HOME/bin
+PATH=$PATH:$VCS_HOME/bin
+PATH=$PATH:$IC3D_HOME/bin
+PATH=$PATH:$LC_HOME/bin
+PATH=$PATH:$SS_HOME/bin
+
+export PATH
+export LD_LIBRARY_PATH
+}
+export -f vlsi_setup
+
+###################################################
+################## NCSU function ##################
+###################################################
+ncsu(){
+vlsi_setup
+export PDK_DIR=/home/tech/NCSU_pdks/FreePDK45
+
+NANGATE=/home/tech/NCSU_pdks/NangateOpenCellLibrary_PDKv1_3_v2010_12
+}
+export -f ncsu
+
+###################################################
+################ 3D NCSU function #################
+###################################################
+3D_ncsu(){
+vlsi_setup
+export PDK_DIR=/home/tech/NCSU_pdks/FreePDK3D45
+
+NANGATE=/home/tech/NCSU_pdks/NangateOpenCellLibrary_PDKv1_3_v2010_12
+}
+export -f 3D_ncsu
+
+###################################################
+################## IBM function ##################
+###################################################
+ibm90(){
+vlsi_setup
+export PDK_DIR=/home/tech/IBM_PDK
+}
+export -f ibm90
+
+###################################################
+################# TSMC65 function #################
+###################################################
+tsmc65gp(){
+vlsi_setup
+export PDK_DIR=/home/tech/TSMC65GP
+export CDS_EXP_PCELL_DIR=~/TSMC65
+}
+export -f tsmc65gp
+
+tsmc180(){
+vlsi_setup
+export PDK_DIR=/home/tech/TSMC180
+}
+export -f tsmc180
+
+
+tsmc65lp(){
+vlsi_setup
+export PDK_BASE_DIR=/home/tech/TSMC65LP
+export PDK_DIR=$PDK_BASE_DIR/PDK/Cadence_OA/tn65cmsp007k3_1_7a
+}
+export -f tsmc65lp
+
+###################################################
+################# TSMC28 function #################
+###################################################
+tsmc28(){
+vlsi_setup
+export MC2_INSTALL_DIR=/home/tech/TSMC28/TSMCHOME/sram/Compiler/tsmc_n28hpcpmc_20120200_110a/tsmc_n28hpcpmc_20120200_110a/MC2_2012.02.00.d
+export PATH=$PATH:$MC2_INSTALL_DIR/bin
+export PDK_DIR=/home/tech/TSMC28
+}
+export -f tsmc28
+
+###################################################
+################## ST65 function ##################
+###################################################
+st65(){
+vlsi_setup
+## PDK setup
+export CMOS065RF_DIR=/home/tech/ST65nm_v5.4
+export CDS_INST_DIR=$CMOS065RF_DIR/UNIOPUS/uniopus_oa/install_amsaoi_cal_2015.4_33.23_mmsim
+
+### Bandaid fix for pInfo
+export PINFO_ROOT=$CMOS065RF_DIR/DK_cmos065lpgp_RF_7m4x0y2z_2V51V8/5.4-24/DATA/DKShared/MODULES/pInfo
+
+export UNICAD_KERNEL_ROOT=$CMOS065RF_DIR/UnicadKernel/5.0.a-00
+export PATH=$PATH:$UNICAD_KERNEL_ROOT:$UNICAD_KERNEL_ROOT/bin
+
+export UK_PATH=$UNICAD_KERNEL_ROOT
+
+export UCDPRJDIR=$PWD
+
+source $UK_PATH/lib/sh/uk-header.sh
+
+#### This line executes a csh script then spawns a bash shell inheriting... Kind of hacky
+#export PRODUCT_ROOT=$CDS_INST_DIR
+#tcsh -c 'source $CDS_INST_DIR/.uk/uniopus.csh;exec bash'
+#unset PRODUCT_ROOT
+#
+#export PRODUCT_ROOT=$CMOS065RF_DIR/ADSKit/3.2.2@20120802.0
+#tcsh -c 'source $PRODUCT_ROOT/ADSKit.csh;exec bash'
+#unset PRODUCT_ROOT
+#
+#export PRODUCT_ROOT=$CMOS065RF_DIR/ArtistKit/6.0-08
+#tcsh -c 'source $PRODUCT_ROOT/ArtistKit.csh;exec bash'
+#unset PRODUCT_ROOT
+#
+#export PRODUCT_ROOT=$CMOS065RF_DIR/DK_cmos065lpgp_RF_7m4x0y2z_2V51V8/5.4-24
+#tcsh -c 'source $PRODUCT_ROOT/DK_cmos065lpgp_RF_7m4x0y2z_2V51V8.csh;exec bash'
+#unset PRODUCT_ROOT
+#
+#export PRODUCT_ROOT=$CMOS065RF_DIR/FrontEndKit/4.4.2@20131205.0
+#tcsh -c 'source $PRODUCT_ROOT/FrontEndKit.csh;exec bash'
+#unset PRODUCT_ROOT
+#
+#export PRODUCT_ROOT=$CMOS065RF_DIR/Foundation_Cadence_PNR_TechnoKit_cmos065_7m4x0y2z_AP/1.3-00
+#tcsh -c 'source $PRODUCT_ROOT/Foundation_Cadence_PNR_TechnoKit_cmos065_7m4x0y2z_AP.csh;exec bash'
+#unset PRODUCT_ROOT
+#
+#export PRODUCT_ROOT=$CMOS065RF_DIR/Foundation_Synopsys_PNR_TechnoKit_cmos065_7m4x0y2z_AP/1.3-00
+#tcsh -c 'source $PRODUCT_ROOT/Foundation_Synopsys_PNR_TechnoKit_cmos065_7m4x0y2z_AP.csh;exec bash'
+#unset PRODUCT_ROOT
+#
+#export PRODUCT_ROOT=$CMOS065RF_DIR/SignOffKit/16.1.b-00
+#tcsh -c 'source $PRODUCT_ROOT/SignOffKit.csh;exec bash'
+#unset PRODUCT_ROOT
+#
+#export PRODUCT_ROOT=$CMOS065RF_DIR/SignOffTechnoKit_cmos065lp_7m4x0y2z/5.4-01
+#tcsh -c 'source $PRODUCT_ROOT/SignOffTechnoKit_cmos065lp_7m4x0y2z.csh;exec bash'
+#unset PRODUCT_ROOT
+#
+#export UK_LOAD_PRODS="ADSKit"
+#export UK_LOAD_PRODS=$UK_LOAD_PRODS" ArtistKit"
+#export UK_LOAD_PRODS=$UK_LOAD_PRODS" DK_cmos065lpgp_RF_7m4x0y2z_2V51V8"
+#export UK_LOAD_PRODS=$UK_LOAD_PRODS" FrontEndKit"
+#export UK_LOAD_PRODS=$UK_LOAD_PRODS" SignOffKit"
+#export UK_LOAD_PRODS=$UK_LOAD_PRODS" SignOffTechnoKit_cmos065lp_7m4x0y2z"
+#export UK_LOAD_PRODS=$UK_LOAD_PRODS" UnicadKernel" 
+#export UK_LOAD_PRODS=$UK_LOAD_PRODS" uniopus"
+#
+#source $UK_PATH/lib/sh/uk-tailer.sh
+
+tcsh -c '
+setenv PRODUCT_ROOT $CDS_INST_DIR;
+source $CDS_INST_DIR/.uk/uniopus_oa.csh;
+unsetenv PRODUCT_ROOT;
+
+setenv PRODUCT_ROOT $CMOS065RF_DIR/ADSKit/3.2.2@20120802.0;
+source $PRODUCT_ROOT/ADSKit.csh;
+unsetenv PRODUCT_ROOT;
+
+setenv PRODUCT_ROOT $CMOS065RF_DIR/ArtistKit/6.0-08;
+source $PRODUCT_ROOT/ArtistKit.csh;
+unsetenv PRODUCT_ROOT;
+
+setenv PRODUCT_ROOT $CMOS065RF_DIR/DK_cmos065lpgp_RF_7m4x0y2z_2V51V8/5.4-24;
+source $PRODUCT_ROOT/DK_cmos065lpgp_RF_7m4x0y2z_2V51V8.csh;
+unsetenv PRODUCT_ROOT;
+
+setenv PRODUCT_ROOT $CMOS065RF_DIR/FrontEndKit/4.4.2@20131205.0;
+source $PRODUCT_ROOT/FrontEndKit.csh;
+unsetenv PRODUCT_ROOT;
+
+setenv PRODUCT_ROOT $CMOS065RF_DIR/Foundation_Cadence_PNR_TechnoKit_cmos065_7m4x0y2z_AP/1.3-00;
+source $PRODUCT_ROOT/Foundation_Cadence_PNR_TechnoKit_cmos065_7m4x0y2z_AP.csh;
+unsetenv PRODUCT_ROOT;
+
+setenv PRODUCT_ROOT $CMOS065RF_DIR/Foundation_Synopsys_PNR_TechnoKit_cmos065_7m4x0y2z_AP/1.3-00;
+source $PRODUCT_ROOT/Foundation_Synopsys_PNR_TechnoKit_cmos065_7m4x0y2z_AP.csh;
+unsetenv PRODUCT_ROOT;
+
+setenv PRODUCT_ROOT $CMOS065RF_DIR/SignOffKit/16.1.b-00;
+source $PRODUCT_ROOT/SignOffKit.csh;
+unsetenv PRODUCT_ROOT;
+
+setenv PRODUCT_ROOT $CMOS065RF_DIR/SignOffTechnoKit_cmos065lp_7m4x0y2z/5.4-01;
+source $PRODUCT_ROOT/SignOffTechnoKit_cmos065lp_7m4x0y2z.csh;
+unsetenv PRODUCT_ROOT;
+
+
+setenv UK_LOAD_PRODS "ADSKit"
+setenv UK_LOAD_PRODS "$UK_LOAD_PRODS"" ArtistKit"
+setenv UK_LOAD_PRODS "$UK_LOAD_PRODS"" DK_cmos065lpgp_RF_7m4x0y2z_2V51V8"
+setenv UK_LOAD_PRODS "$UK_LOAD_PRODS"" FrontEndKit"
+setenv UK_LOAD_PRODS "$UK_LOAD_PRODS"" SignOffKit"
+setenv UK_LOAD_PRODS "$UK_LOAD_PRODS"" SignOffTechnoKit_cmos065lp_7m4x0y2z"
+setenv UK_LOAD_PRODS "$UK_LOAD_PRODS"" UnicadKernel" 
+setenv UK_LOAD_PRODS "$UK_LOAD_PRODS"" uniopus"
+
+
+source $UK_PATH/lib/csh/uk-tailer.csh;
+
+exec bash;'
+}
+export -f st65
+
+
+###################################################
+################# AMS350 function #################
+###################################################
+ams_350interposer(){
+vlsi_setup
+## PDK setup
+export AMS_DIR=/home/tech/AMS_410_ISR15
+export CDSDIR=$CDS_ROOT
+
+export PATH=$PATH:$AMS_DIR/cds/bin
+export PATH=$PATH:$AMS_DIR
+export PATH=$PATH:$AMS_DIR/programs/bin
+
+export PATH
+}
+export -f ams_350interposer
