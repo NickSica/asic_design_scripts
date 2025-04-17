@@ -8,6 +8,8 @@ star_work
 HDL_WORK
 HDL_LIBRARIES
 work_dir
+WORK_autoread
+transcript
 logs
 Milkyway.log*
 Milkyway.cmd*
