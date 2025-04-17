@@ -4,9 +4,14 @@ output
 reports*
 const
 work
+star_work
+HDL_WORK
+HDL_LIBRARIES
+work_dir
 logs
 Milkyway.log*
 Milkyway.cmd*
+src
 *.log
 *.svf
 *.txt
