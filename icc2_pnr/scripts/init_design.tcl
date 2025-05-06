@@ -26,6 +26,8 @@ if { $app_name == "icc2_shell" } {
     read_parasitic_tech -tlup $tlupnom -layermap $tech2itf -name tlup_nom
     set_parasitic_parameters -early_spec tlup_nom -late_spec tlup_nom
     # -corners { default } 
+
+    set_technology -node $node
     
     save_block -as ${lib_name}_initial
 }

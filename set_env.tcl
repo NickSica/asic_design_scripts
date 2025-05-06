@@ -101,11 +101,11 @@ if { $pdk == "saed14nm" } {
          $pdk_dir/lib/stdcell_rvt/db_ccs/saed32rvt_ss0p95v125c.db \
          $pdk_dir/lib/stdcell_rvt/db_ccs/saed32rvt_ss0p95v25c.db \
          $pdk_dir/lib/stdcell_rvt/db_ccs/saed32rvt_ss0p95vn40c.db \
-     ]
-     
-     set target_library [ list \
+    ]
+    
+    set target_library [ list \
          $pdk_dir/lib/stdcell_rvt/db_ccs/saed32rvt_ss0p95v25c.db \
-     ]
+    ]
 
     set libdir "$pdk_dir/tech/starrc"
     set tlupmax "$libdir/max/saed32nm_1p9m_Cmax.tluplus"
@@ -114,9 +114,9 @@ if { $pdk == "saed14nm" } {
     set tech2itf "$libdir/saed32nm_tf_itf_tluplus.map"
     
     set techfile "$pdk_dir/tech/tf/saed32nm_1p9m.tf"
-     #set ref_lib "$pdk_dir/lib/stdcell_rvt/ndm/saed32rvt_frame_only.ndm"
-     set icc_lib "$pdk_dir/lib/stdcell_rvt/milkyway/saed32nm_rvt_1p9m"
-     set icc2_lib "$pdk_dir/lib/stdcell_rvt/ndms/saed32_rvt.ndm"
+    #set ref_lib "$pdk_dir/lib/stdcell_rvt/ndm/saed32rvt_frame_only.ndm"
+    set icc_lib "$pdk_dir/lib/stdcell_rvt/milkyway/saed32nm_rvt_1p9m"
+    set icc2_lib "$pdk_dir/lib/stdcell_rvt/ndms/saed32_rvt.ndm"
 } elseif { $pdk == "saed90nm" } {
     set pdk_dir /home/tech/SAED90nm_lib/SAED_EDK90nm
     set link_library [ list * \
@@ -138,89 +138,91 @@ if { $pdk == "saed14nm" } {
     set techfile $pdk_dir/Technology_Kit/techfile/saed90nm_1p9m.tf
     set icc_lib $pdk_dir/Digital_Standard_Cell_Library/synopsys/plib/
 } elseif { $pdk == "nangate45" } {
-     #set pdk_dir /home/tech/freepdk45
-     set pdk_dir ~/NanGate45
-     set link_library [ list * \
-         $pdk_dir/NangateOpenCellLibrary_typical.db \
-     ]
-     #set link_library [glob $pdk_dir/db/*.db]
-     
-     #set target_library [glob /home/sica/asic_design_scripts/lc_shell/*.db]
-     set target_library [ list \
-         $pdk_dir/NangateOpenCellLibrary_typical.db \
-     ]
+    #set pdk_dir /home/tech/freepdk45
+    set pdk_dir ~/NanGate45
+    set link_library [ list * \
+        $pdk_dir/NangateOpenCellLibrary_typical.db \
+    ]
+    #set link_library [glob $pdk_dir/db/*.db]
+    
+    #set target_library [glob /home/sica/asic_design_scripts/lc_shell/*.db]
+    set target_library [ list \
+        $pdk_dir/NangateOpenCellLibrary_typical.db \
+    ]
  
-     set libdir "$pdk_dir/fixme_snps-main/starrc"
-     set tlupmax "$libdir/NangateOpenCellLibrary.tlup"
-     set tlupnom $tlupmax
-     set tlupmin $tlupmin
-     set tech2itf "$libdir/asap07.layermap"
+    set libdir "$pdk_dir/fixme_snps-main/starrc"
+    set tlupmax "$libdir/NangateOpenCellLibrary.tlup"
+    set tlupnom $tlupmax
+    set tlupmin $tlupmin
+    set tech2itf "$libdir/asap07.layermap"
  
-     set techfile $pdk_dir/tf/NangateOpenCellLibrary.tf
-     set icc_lib $pdk_dir/milkyway/NanGate45
-     set icc2_lib $pdk_dir/ndm/
+    set techfile $pdk_dir/tf/NangateOpenCellLibrary.tf
+    set icc_lib $pdk_dir/milkyway/NanGate45
+    set icc2_lib $pdk_dir/ndm/
  } elseif { $pdk == "skywater130" } {
-     set pdk_dir /home/sica/pdks/sky130hd
-     #set link_library [ list * \
-     #    $pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db \
-     #    $pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_min.db \
-     #]
-     set link_library $pdk_dir/lib/sky130.db
-     
-     set target_library $pdk_dir/lib/sky130.db
-     #set target_library [ list \
-     #    $pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db \
-     #]
+    set pdk_dir /home/sica/pdks/sky130hd
+    #set link_library [ list * \
+    #    $pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db \
+    #    $pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_min.db \
+    #]
+    set link_library $pdk_dir/lib/sky130.db
+    
+    set target_library $pdk_dir/lib/sky130.db
+    #set target_library [ list \
+    #    $pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db \
+    #]
  
-     set libdir $pdk_dir
-     #set tlupmax "$libdir/tluplus/saed90nm_1p9m_1t_Cmax.tluplus"
-     set tlupmax "$libdir/skywater130_nominal.tluplus"
-     set tlupnom "$libdir/skywater130_nominal.tluplus"
-     set tlupmin "$libdir/skywater130_nominal.tluplus"
-     #set tlupmin "$libdir/tluplus/saed90nm_1p9m_1t_Cmin.tluplus"
-     #set tech2itf "$libdir/skywater.mw2itf.map"
-     set tech2itf ""
+    set libdir $pdk_dir
+    #set tlupmax "$libdir/tluplus/saed90nm_1p9m_1t_Cmax.tluplus"
+    set tlupmax "$libdir/skywater130_nominal.tluplus"
+    set tlupnom "$libdir/skywater130_nominal.tluplus"
+    set tlupmin "$libdir/skywater130_nominal.tluplus"
+    #set tlupmin "$libdir/tluplus/saed90nm_1p9m_1t_Cmin.tluplus"
+    #set tech2itf "$libdir/skywater.mw2itf.map"
+    set tech2itf ""
  
-     set techfile /home/sica/skywater-pdk/vendor/synopsys/milkyway/sky130_fd_sc_hd.tf
-     set techfile $pdk_dir/milkyway/tech/skywater.tf
-     set icc_lib $pdk_dir/milkyway/sky_lib
+    set techfile /home/sica/skywater-pdk/vendor/synopsys/milkyway/sky130_fd_sc_hd.tf
+    set techfile $pdk_dir/milkyway/tech/skywater.tf
+    set icc_lib $pdk_dir/milkyway/sky_lib
  } elseif { $pdk == "asap7" } {
-     set temp 25.00
-     set proc_num 1
-     ##set_process_label ss0p95v25c
-     set vdd_voltage 0.70
-     ###set_voltage 0.95 -object_list VDDG
-     set gnd_voltage 0.00
+    set temp 25.00
+    set proc_num 1
+    ##set_process_label ss0p95v25c
+    set vdd_voltage 0.70
+    ###set_voltage 0.95 -object_list VDDG
+    set gnd_voltage 0.00
+
+    set node 7
  
-     set vdd_port VDD
-     set gnd_port VSS
+    set vdd_port VDD
+    set gnd_port VSS
  
-     set pdk_dir /home/tech/asap7
-     #set link_library [ list * \
-     #    $pdk_dir/asap7sc7p5t_28/LIB/CCS/.lib \
-     #    $pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db \
-     #    $pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_min.db \
-     #]
+    set pdk_dir /home/tech/asap7
+    #set link_library [ list * \
+    #    $pdk_dir/asap7sc7p5t_28/LIB/CCS/.lib \
+    #    $pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db \
+    #    $pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_min.db \
+    #]
  
-     set link_library [glob $pdk_dir/asap7sc7p5t_28/DB/CCS/*.db]
-     
-     set target_library [glob $pdk_dir/asap7sc7p5t_28/DB/CCS/*TT*.db]
+    set link_library [glob $pdk_dir/asap7sc7p5t_28/DB/CCS/*.db]
+    
+    set target_library [glob $pdk_dir/asap7sc7p5t_28/DB/CCS/*RVT_TT*.db]
  
-     #set target_library [ list \
-     #    $pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db \
-     #]
+    #set target_library [ list \
+    #    $pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db \
+    #]
  
-     set libdir "$pdk_dir/asap7_snps-main/starrc"
-     #set tlupmax "$libdir/tluplus/saed90nm_1p9m_1t_Cmax.tluplus"
-     set tlupmax "$libdir/asap07.tluplus"
-     set tlupnom "$libdir/asap07.tluplus"
-     set tlupmin "$libdir/asap07.tluplus"
-     #set tlupmin "$libdir/tluplus/saed90nm_1p9m_1t_Cmin.tluplus"
-     set tech2itf "$libdir/asap07.layermap"
+    set libdir "$pdk_dir/asap7_snps-main/starrc"
+    #set tlupmax "$libdir/tluplus/saed90nm_1p9m_1t_Cmax.tluplus"
+    set tlupmax "$libdir/asap07.tluplus"
+    set tlupnom "$libdir/asap07.tluplus"
+    set tlupmin "$libdir/asap07.tluplus"
+    #set tlupmin "$libdir/tluplus/saed90nm_1p9m_1t_Cmin.tluplus"
+    set tech2itf "$libdir/asap07.layermap"
  
-     set techfile $pdk_dir/asap7_snps-main/icc/asap07_icc.tf
-     set icc_lib $pdk_dir/asap7sc7p5t_28/milkyway/asap7sc7p5t_28_R_220121a
-     set icc2_lib $pdk_dir/asap7sc7p5t_28/ndm/asap7sc7p5t_28_R_220121a.ndm
+    set techfile $pdk_dir/asap7_snps-main/icc/asap07_icc.tf
+    set icc_lib $pdk_dir/asap7sc7p5t_28/milkyway/asap7sc7p5t_28_R_220121a
+    set icc2_lib $pdk_dir/asap7sc7p5t_28/ndm/asap7sc7p5t_28_R_220121a.ndm
 } elseif { $pdk == "tsmc65nm" } {
     set temp 25
     set proc_num 0.99

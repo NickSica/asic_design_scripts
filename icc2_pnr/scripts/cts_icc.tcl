@@ -2,7 +2,7 @@
 ### Clock Tree Synthesis
 ###########################################################################
 
-if {$is_fc == 1} {
+if {$app_name == "fc_shell"} {
     set_early_data_check_policy -policy lenient -checks cts.constraint.ao_libcells
     set_clock_routing_rules -clocks ideal_clock1 -default_rule -min_routing_layer M3 -max_routing_layer M6
 }

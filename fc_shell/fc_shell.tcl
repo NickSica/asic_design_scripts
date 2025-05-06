@@ -48,6 +48,8 @@ define_hdl_library HDL_WORK -path $work_dir
 analyze -hdl_library HDL_WORK -autoread -recursive -top $top $src_dirs
 elaborate -hdl_library HDL_WORK $top
 
+set_technology $node
+
 #create_site_def -name unit -width 0.2 -height 1.8  
 #create_site_def -name gaunit -width 0.8 -height 1.8  
 # TODO: FIXME?

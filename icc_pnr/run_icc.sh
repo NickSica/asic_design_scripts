@@ -11,7 +11,7 @@ for design in $TOP_LIST; do
     #INCL_LIBS="../lc_shell/rtwo_cells"
     #INCL_DIRS="../dv/uvm/core_ibex/common/prim ../lowrisc_dv/sv/dv_utils"
     #PKG_FILES=$(find ../lowrisc_ip/ip/prim/rtl -name "*_pkg.sv")
-    mkdir logs/$design
+    mkdir -p logs/$design
 
     PKG_FILES=$PKG_FILES \
     INCL_LIBS=$INCL_LIBS \

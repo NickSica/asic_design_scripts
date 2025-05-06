@@ -5,7 +5,7 @@
 # -left,bottom,right,top_io2core not supported
 #initialize_floorplan
 #initialize_floorplan -boundary { {0 0} {400 0} {400 400} {0 400} } -core_offset {10 10 10 10}
-initialize_floorplan -core_offset {10 10 10 10}
+initialize_floorplan -core_offset {10 10 10 10} -core_utilization 0.7
 #initialize_floorplan -boundary { {0 0} {50 0} {50 50} {0 50} }
 #initialize_floorplan -core_utilization 0.60 -core_offset {10 10 10 10}
 # too small -row_core_ratio 0.6

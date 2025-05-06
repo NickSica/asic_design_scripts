@@ -78,8 +78,8 @@ if { $pdk == "saed32nm" } {
     set db_files [glob ~/asap7_move/asap7sc7p5t_28/DB/CCS/*.db]
     set layermap $pdk_dir/asap7_snps-main/icc/asap07.GDS2A
 
-    read_gds -merge_action update -library $lib -layer_map $layermap $gds_files
-    read_lef -merge_action update -library $lib $lef_files
+    #read_gds -merge_action update -library $lib -layer_map $layermap $gds_files
+    read_lef -merge_action attribute_only -library $lib $lef_files
     #read_db $db_files
     start_gui
     ### Need the conversion for big routing blockages
