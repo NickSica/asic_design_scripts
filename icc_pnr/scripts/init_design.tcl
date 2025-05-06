@@ -3,8 +3,8 @@ set_tlu_plus_files -max_tluplus $tlupnom -tech2itf_map $tech2itf
 set lib_name $top.mw
 
 create_mw_lib $lib_dir/$lib_name \
-		 -technology $techfile \
-		 -mw_reference_library $ref_lib 
+         -technology $techfile \
+         -mw_reference_library $ref_lib 
 open_mw_lib $lib_dir/$lib_name
 
 #set design_data $top.ddc

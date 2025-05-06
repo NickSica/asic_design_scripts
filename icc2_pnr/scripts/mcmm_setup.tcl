@@ -29,7 +29,7 @@ if { $app_name == "icc2_shell" } {
 }
 
 #set_extraction_options -late_ccap_threshold 0.0005 -early_ccap_threshold 0.0005 \
-#	-honor_mask_constraints true \
-#	-real_metalfill_extraction floating \
-#	-virtual_shield_extraction false \
-#	-corners { fast slow }
+#    -honor_mask_constraints true \
+#    -real_metalfill_extraction floating \
+#    -virtual_shield_extraction false \
+#    -corners { fast slow }

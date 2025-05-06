@@ -15,7 +15,7 @@ if {!$flag} {
 set_attribute [current_block] boundary {} 
 
 set_attribute [current_block] \
-	boundary {	{0.000 0.000} {35.456 0.000} {35.456 35.200} {0.000 35.200} {0.000 0.000}} 
+    boundary {    {0.000 0.000} {35.456 0.000} {35.456 35.200} {0.000 35.200} {0.000 0.000}} 
 set oldSnapState [gui_get_snap_setting -enabled]
 gui_set_snap_setting -enabled false
 

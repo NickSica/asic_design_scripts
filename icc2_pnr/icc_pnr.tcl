@@ -37,13 +37,13 @@ set_svf -off
 #open_block ${lib_name}_extracted
 #if { ![info exists top_script] } {
 set icc2_dir [file join $root_dir icc2_pnr]
-	source -echo $icc2_dir/scripts/init_design.tcl
-	source -echo $icc2_dir/scripts/floorplan_icc.tcl
-	source -echo $icc2_dir/scripts/pg_plan.tcl
-	#source -echo $icc2_dir/scripts/pg_plan_tsmc65.tcl
-	source -echo $icc2_dir/scripts/place_icc.tcl
-	source -echo $icc2_dir/scripts/cts_icc.tcl
-	source -echo $icc2_dir/scripts/route_icc.tcl
-	source -echo $icc2_dir/scripts/extract_icc.tcl
+    source -echo $icc2_dir/scripts/init_design.tcl
+    source -echo $icc2_dir/scripts/floorplan_icc.tcl
+    source -echo $icc2_dir/scripts/pg_plan.tcl
+    #source -echo $icc2_dir/scripts/pg_plan_tsmc65.tcl
+    source -echo $icc2_dir/scripts/place_icc.tcl
+    source -echo $icc2_dir/scripts/cts_icc.tcl
+    source -echo $icc2_dir/scripts/route_icc.tcl
+    source -echo $icc2_dir/scripts/extract_icc.tcl
 #}
 start_gui

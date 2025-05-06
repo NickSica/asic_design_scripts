@@ -8,13 +8,13 @@ source -echo [file join $root_dir icc2_pnr/scripts/mcmm_setup.tcl]
 
 ##Goto Layout Window , Placement ' Core Placement and Optimization .  A new window opens up as shown below . There are various options, you can click on what ever option you want and say ok. The tool will do the placement. Alternatively you can also run at the command at icc_shell . Below is example with congestion option.
 #if { $pdk == "saed32nm" } {
-#	set CTS_LIB_CELL_PATTERN_LIST "*/NBUF* */AOBUF* */AOINV* */SDFF*"
+#    set CTS_LIB_CELL_PATTERN_LIST "*/NBUF* */AOBUF* */AOINV* */SDFF*"
 #} elseif { $pdk == "saed14nm" } {
-#	set CTS_LIB_CELL_PATTERN_LIST "*/*_AOBUF* */*_AOI*"
+#    set CTS_LIB_CELL_PATTERN_LIST "*/*_AOBUF* */*_AOI*"
 #} elseif { $pdk == "tsmc65nm" } {
-#	set CTS_LIB_CELL_PATTERN_LIST "*/BUFF* */AOI*"
+#    set CTS_LIB_CELL_PATTERN_LIST "*/BUFF* */AOI*"
 #} elseif { $pdk == "tsmc28nm" } {
-#	set CTS_LIB_CELL_PATTERN_LIST "*/BUFF* */AOI*"
+#    set CTS_LIB_CELL_PATTERN_LIST "*/BUFF* */AOI*"
 #}
 #
 #set_dont_touch [get_lib_cells $CTS_LIB_CELL_PATTERN_LIST] false

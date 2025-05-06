@@ -10,13 +10,13 @@ if { $pdk == "tsmc65nm" } {
     #set techfile "$pdk_dir/APR Tech/Synopsys/tn28clpr002s1_1_5a/N28_PRTF_Syn_v1d5a/PR_tech/Synopsys/TechFile/VHV/tsmcn28_9lm6X1Z1UUTRDL.tf"
 
 } elseif { $pdk == "tsmc28nm" } {
-	create_workspace -technology $techfile ${pdk}_workspace
-	read_db $link_library 
-	read_lef ../icc_pnr/test.lef
-	#read_lef $pdk_dir/TSMCHOME/digital/Back_End/lef/tcbn28hpcplusbwp30p140_110a/lef/tcbn28hpcplusbwp30p140.lef
-	#read_gds /home/sica/TSMC28/std_cells.gds
-	#read_gds $pdk_dir/TSMCHOME/digital/Back_End/gds/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.gds
-	process_workspaces -force -output ${pdk}.ndm
+    create_workspace -technology $techfile ${pdk}_workspace
+    read_db $link_library 
+    read_lef ../icc_pnr/test.lef
+    #read_lef $pdk_dir/TSMCHOME/digital/Back_End/lef/tcbn28hpcplusbwp30p140_110a/lef/tcbn28hpcplusbwp30p140.lef
+    #read_gds /home/sica/TSMC28/std_cells.gds
+    #read_gds $pdk_dir/TSMCHOME/digital/Back_End/gds/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.gds
+    process_workspaces -force -output ${pdk}.ndm
 }
 
 create_workspace -flow physical_only -technology $techfile ${new_lib}_${pdk}_workspace

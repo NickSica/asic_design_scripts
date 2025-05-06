@@ -21,7 +21,7 @@ create_placement -floorplan
 # Create VDD/VSS Ring
 #{side_offset: {{side: 1 2 3 4}{offset: 3.5}}}
 create_pg_ring_pattern pg_ring -nets {VSS VDD} \
-	-horizontal_layer M7 -vertical_layer M8 \
+    -horizontal_layer M7 -vertical_layer M8 \
     -vertical_spacing 0.5 \
     -horizontal_spacing 0.5 \
     -corner_bridge true \
@@ -30,13 +30,13 @@ create_pg_ring_pattern pg_ring -nets {VSS VDD} \
          {{intersection: undefined} {via_master: NIL}} \
     }
 set_pg_strategy ring_strat -core \
-	-pattern { \
+    -pattern { \
           {name: pg_ring} \
-		  {nets: {VSS VDD}} \
+          {nets: {VSS VDD}} \
           {offset: {1 1}} \
     } \
-	-extension { \
-		    {{side: 1 2 3 4}{direction: T L B R}{stop: design_boundary_and_generate_pin}} \
+    -extension { \
+            {{side: 1 2 3 4}{direction: T L B R}{stop: design_boundary_and_generate_pin}} \
     }
 #{{side: 2 4}{direction: L R}{stop: design_boundary_and_generate_pin}} \
 #{width: 1.5} {pitch: 15}

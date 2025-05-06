@@ -1,8 +1,8 @@
 if { $app_name == "icc2_shell" } {
     if { ![file exists $lib_dir/${lib_name}.dlib] } {
-    	create_lib $lib_dir/${lib_name}.dlib \
-    		-technology $techfile \
-    		-ref_libs ${icc2_lib}
+        create_lib $lib_dir/${lib_name}.dlib \
+            -technology $techfile \
+            -ref_libs ${icc2_lib}
     }
     open_lib $lib_dir/${lib_name}.dlib
 }
