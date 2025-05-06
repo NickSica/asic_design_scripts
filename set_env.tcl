@@ -52,7 +52,7 @@ set sdc_files   [glob -nocomplain $sdc_dirs/*.sdc]
 if {[info exists root_dir] == 0} {
     set root_dir [file dirname [info script]]
 }
-set pdk saed32nm
+set pdk asap7
 
 set power_net VDD
 set ground_net VSS
@@ -85,31 +85,38 @@ if { $pdk == "saed14nm" } {
 	set icc_lib "$pdk_dir/stdcell_rvt/milkyway/saed14nm_rvt_1p9m"
 	set icc2_lib "$pdk_dir/stdcell_rvt/ndm/saed14rvt_frame_timing_ccs.ndm"
 } elseif { $pdk == "saed32nm" } {
-	set pdk_dir /home/tech/SAED32nm
-    set search_path "$search_path $pdk_dir/lib/stdcell_rvt/db_ccs"
-    set target_library "saed32rvt_ss0p95v25c.db"
-    set link_library "* $target_library"
-	#set link_library [ list * \
-	#	$pdk_dir/lib/stdcell_rvt/db_ccs/saed32rvt_ss0p95v125c.db \
-	#	$pdk_dir/lib/stdcell_rvt/db_ccs/saed32rvt_ss0p95v25c.db \
-	#	$pdk_dir/lib/stdcell_rvt/db_ccs/saed32rvt_ss0p95vn40c.db \
-	#]
-	#
-	#set target_library [ list \
-	#	$pdk_dir/lib/stdcell_rvt/db_ccs/saed32rvt_ss0p95v25c.db \
-	#]
+    set temp 25
+    set proc_num 0.99
+    #set_process_label ss0p95v25c
+    set vdd_voltage 0.95
+    ##set_voltage 0.95 -object_list VDDG
+    set gnd_voltage 0.00
+ 
+    set vdd_port VDD
+    set gnd_port VSS
 
-    set libdir "$pdk_dir/tech/star_rcxt"
-	set tlupmax "$libdir/saed32nm_1p9m_Cmax.tluplus"
-	set tlupnom "$libdir/saed32nm_1p9m_nominal.tluplus"
-	set tlupmin "$libdir/saed32nm_1p9m_Cmin.tluplus"
+    set pdk_dir /home/tech/SAED32nm
+    set search_path "$search_path $pdk_dir/lib/stdcell_rvt/db_ccs"
+	set link_library [ list * \
+ 		$pdk_dir/lib/stdcell_rvt/db_ccs/saed32rvt_ss0p95v125c.db \
+ 		$pdk_dir/lib/stdcell_rvt/db_ccs/saed32rvt_ss0p95v25c.db \
+ 		$pdk_dir/lib/stdcell_rvt/db_ccs/saed32rvt_ss0p95vn40c.db \
+ 	]
+ 	
+ 	set target_library [ list \
+ 		$pdk_dir/lib/stdcell_rvt/db_ccs/saed32rvt_ss0p95v25c.db \
+ 	]
+
+    set libdir "$pdk_dir/tech/starrc"
+	set tlupmax "$libdir/max/saed32nm_1p9m_Cmax.tluplus"
+	set tlupnom "$libdir/nominal/saed32nm_1p9m_nominal.tluplus"
+	set tlupmin "$libdir/min/saed32nm_1p9m_Cmin.tluplus"
 	set tech2itf "$libdir/saed32nm_tf_itf_tluplus.map"
 	
-	set icc_techfile "$pdk_dir/tech/milkyway/saed32nm_1p9m_mw.tf"
-	set icc2_techfile "$pdk_dir/lib/stdcell_rvt/ndm/tf/saed32nm_1p9m_mw.tf"
-	#set ref_lib "$pdk_dir/lib/stdcell_rvt/ndm/saed32rvt_frame_only.ndm"
-	set icc_lib "$pdk_dir/lib/stdcell_rvt/milkyway/saed32nm_rvt_1p9m"
-	set icc2_lib "$pdk_dir/lib/stdcell_rvt/ndm/saed32rvt_frame_timing_ccs.ndm"
+    set techfile "$pdk_dir/tech/tf/saed32nm_1p9m.tf"
+ 	#set ref_lib "$pdk_dir/lib/stdcell_rvt/ndm/saed32rvt_frame_only.ndm"
+ 	set icc_lib "$pdk_dir/lib/stdcell_rvt/milkyway/saed32nm_rvt_1p9m"
+ 	set icc2_lib "$pdk_dir/lib/stdcell_rvt/ndms/saed32_rvt.ndm"
 } elseif { $pdk == "saed90nm" } {
 	set pdk_dir /home/tech/SAED90nm_lib/SAED_EDK90nm
 	set link_library [ list * \
@@ -130,9 +137,98 @@ if { $pdk == "saed14nm" } {
 
 	set techfile $pdk_dir/Technology_Kit/techfile/saed90nm_1p9m.tf
 	set icc_lib $pdk_dir/Digital_Standard_Cell_Library/synopsys/plib/
+} elseif { $pdk == "nangate45" } {
+ 	#set pdk_dir /home/tech/freepdk45
+ 	set pdk_dir ~/NanGate45
+ 	set link_library [ list * \
+ 		$pdk_dir/NangateOpenCellLibrary_typical.db \
+ 	]
+ 	#set link_library [glob $pdk_dir/db/*.db]
+ 	
+ 	#set target_library [glob /home/sica/asic_design_scripts/lc_shell/*.db]
+ 	set target_library [ list \
+ 	    $pdk_dir/NangateOpenCellLibrary_typical.db \
+ 	]
+ 
+     set libdir "$pdk_dir/fixme_snps-main/starrc"
+ 	set tlupmax "$libdir/NangateOpenCellLibrary.tlup"
+ 	set tlupnom $tlupmax
+ 	set tlupmin $tlupmin
+ 	set tech2itf "$libdir/asap07.layermap"
+ 
+ 	set techfile $pdk_dir/tf/NangateOpenCellLibrary.tf
+ 	set icc_lib $pdk_dir/milkyway/NanGate45
+ 	set icc2_lib $pdk_dir/ndm/
+ } elseif { $pdk == "skywater130" } {
+ 	set pdk_dir /home/sica/pdks/sky130hd
+ 	#set link_library [ list * \
+ 	#	$pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db \
+ 	#	$pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_min.db \
+ 	#]
+ 	set link_library $pdk_dir/lib/sky130.db
+ 	
+ 	set target_library $pdk_dir/lib/sky130.db
+ 	#set target_library [ list \
+ 	#	$pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db \
+ 	#]
+ 
+     set libdir $pdk_dir
+ 	#set tlupmax "$libdir/tluplus/saed90nm_1p9m_1t_Cmax.tluplus"
+ 	set tlupmax "$libdir/skywater130_nominal.tluplus"
+ 	set tlupnom "$libdir/skywater130_nominal.tluplus"
+ 	set tlupmin "$libdir/skywater130_nominal.tluplus"
+ 	#set tlupmin "$libdir/tluplus/saed90nm_1p9m_1t_Cmin.tluplus"
+ 	#set tech2itf "$libdir/skywater.mw2itf.map"
+ 	set tech2itf ""
+ 
+     set techfile /home/sica/skywater-pdk/vendor/synopsys/milkyway/sky130_fd_sc_hd.tf
+ 	set techfile $pdk_dir/milkyway/tech/skywater.tf
+ 	set icc_lib $pdk_dir/milkyway/sky_lib
+ } elseif { $pdk == "asap7" } {
+     set temp 25.00
+     set proc_num 1
+     ##set_process_label ss0p95v25c
+     set vdd_voltage 0.70
+     ###set_voltage 0.95 -object_list VDDG
+     set gnd_voltage 0.00
+ 
+     set vdd_port VDD
+     set gnd_port VSS
+ 
+ 	set pdk_dir /home/tech/asap7
+ 	#set link_library [ list * \
+ 	#	$pdk_dir/asap7sc7p5t_28/LIB/CCS/.lib \
+ 	#	$pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db \
+ 	#	$pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_min.db \
+ 	#]
+ 
+ 	set link_library [glob $pdk_dir/asap7sc7p5t_28/DB/CCS/*.db]
+ 	
+ 	set target_library [glob $pdk_dir/asap7sc7p5t_28/DB/CCS/*TT*.db]
+ 
+ 	#set target_library [ list \
+ 	#	$pdk_dir/Digital_Standard_cell_Library/synopsys/models/saed90nm_typ.db \
+ 	#]
+ 
+     set libdir "$pdk_dir/asap7_snps-main/starrc"
+ 	#set tlupmax "$libdir/tluplus/saed90nm_1p9m_1t_Cmax.tluplus"
+ 	set tlupmax "$libdir/asap07.tluplus"
+ 	set tlupnom "$libdir/asap07.tluplus"
+ 	set tlupmin "$libdir/asap07.tluplus"
+ 	#set tlupmin "$libdir/tluplus/saed90nm_1p9m_1t_Cmin.tluplus"
+ 	set tech2itf "$libdir/asap07.layermap"
+ 
+ 	set techfile $pdk_dir/asap7_snps-main/icc/asap07_icc.tf
+ 	set icc_lib $pdk_dir/asap7sc7p5t_28/milkyway/asap7sc7p5t_28_R_220121a
+ 	set icc2_lib $pdk_dir/asap7sc7p5t_28/ndm/asap7sc7p5t_28_R_220121a.ndm
 } elseif { $pdk == "tsmc65nm" } {
-    set vdd_voltage 1
-    set gnd_voltage 0
+    set temp 25
+    set proc_num 0.99
+    #set_process_label ss0p95v25c
+    set vdd_voltage 1.00
+    ##set_voltage 0.95 -object_list VDDG
+    set gnd_voltage 0.00
+
     set vdd_port VDD
     set gnd_port VSS
 
@@ -156,21 +252,21 @@ if { $pdk == "saed14nm" } {
 
     set layermap "$pdk_dir/TSMCHOME/6x1z1u_icc_icc2_tech_files/PRTF_ICC_65nm_001_Syn_V24a/PR_tech/Synopsys/GdsOutMap/PRTF_ICC_N65_gdsout_6X1Z1U.24a.map"
 	set techfile $pdk_dir/TSMCHOME/6x1z1u_icc_icc2_tech_files/PRTF_ICC_65nm_001_Syn_V24a/PR_tech/Synopsys/TechFile/VHV/PRTF_ICC_N65_9M_6X1Z1U_RDL.24a.tf
-	#set ref_lib ../lc_shell/tsmc65nm.ndm
 	set icc_lib $pdk_dir/TSMCHOME/digital/Back_End/milkyway/tcbn65gplus_200a/cell_frame/tcbn65gplus
 	set icc2_lib $pdk_dir/TSMCHOME/digital/Back_End/milkyway/tsmc65nm.ndm
-	#set icc2_lib [list [file join $root_dir lm_shell/tsmc65nm.ndm] $incl_libs]
-	#set icc2_lib [list [file join $root_dir lm_shell/tsmc65nm.ndm] ]
-    #set cdsDefTechLib $CDSHOME/tools/dfII/etc/cdsDefTechLib
-    #set basicLib $CDSHOME/tools/dfII/etc/cdslib/basic
-    #set analogLib $CDSHOME/tools/dfII/etc/cdslib/artist/analogLib
+
     set tsmcN65 $pdk_dir/tsmcN65
     set TSMC65_RotaryCircuits $root_dir/TSMC65_RotaryCircuits
     set tcbn65gplus $root_dir/tcbn65gplus
     set TSMC65_HFSS_Interconnects $root_dir/TSMC65_HFSS_Interconnects
 } elseif { $pdk == "tsmc28nm" } {
-    set vdd_voltage 0.9
-    set gnd_voltage 0
+	set temp 25.00
+    set proc_num 1.00
+    ##set_process_label ss0p95v25c
+    set vdd_voltage 0.90
+    ###set_voltage 0.95 -object_list VDDG
+    set gnd_voltage 0.00
+
     set vdd_port VDD
     set gnd_port VSS
 
