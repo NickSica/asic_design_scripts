@@ -3,11 +3,11 @@
 source -echo ../set_env.tcl
 
 lappend search_path ${incl_dirs}
-set const_dir     const/${top}
-set reports_dir reports/${top}
-set output_dir   output/${top}
-set const_dir     const/${top}
-set work_dir       work/${top}
+set const_dir   $pdk/const/${top}
+set reports_dir $pdk/reports/${top}
+set output_dir  $pdk/output/${top}
+set const_dir   $pdk/const/${top}
+set work_dir    $pdk/work/${top}
 
 ## read the verilog files
 define_design_lib WORK -path $work_dir
