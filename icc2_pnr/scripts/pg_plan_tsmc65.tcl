@@ -72,38 +72,25 @@ set_pg_strategy std_rails -core \
     -pattern { \
         {name: std_pattern} \
         {nets: {VDD VSS}} \
-    } \
-    -extension { \
-        {{side: 1 2 3 4} \
-         {direction: T L B R} \
-         {stop: outermost_ring} \
-        }
     }
     #-extension { {{stop: outermost_ring}} }
 
 ###### Weird quirk- {strategies: ring_strat} doesn't work don't know why
-#set_pg_strategy_via_rule rail_via_rule \
-#    -via_rule { 
-#        { {{strategies: std_rails} {layers: M1}}  
-#          {{strategies: mesh_strat} {layers: M6}}  
-#          {via_master: {VIA12 VIA23 VIA34 VIA45 VIA56}} }
-#        { {{strategies: mesh_strat} {layers: M6}}
-#          {{existing: ring} {layers: M7}}
-#          {via_master: VIA67} }
-#        { {{strategies: mesh_strat} {layers: M7}} 
-#          {{existing: ring} {layers: M8}}
-#          {via_master: default} }
-#    }
 set_pg_strategy_via_rule rail_via_rule \
     -via_rule { 
         { {{strategies: std_rails} {layers: M1}}  
-          {{existing: ring} {layers: M8}}  
-          {via_master: {VIA12 VIA23 VIA34 VIA45 VIA56 VIA67 VIA78}} }
+          {{strategies: mesh_strat} {layers: M6}}  
+          {via_master: {VIA12 VIA23 VIA34 VIA45 VIA56}} }
+        { {{strategies: mesh_strat} {layers: M6}}
+          {{existing: ring} {layers: M7}}
+          {via_master: VIA67} }
+        { {{strategies: mesh_strat} {layers: M7}} 
+          {{existing: ring} {layers: M8}}
+          {via_master: default} }
     }
 
-set_app_options -name plan.pgroute.disable_floating_removal -value true
-#compile_pg -strategies {mesh_strat std_rails} -via_rule rail_via_rule
-compile_pg -strategies {std_rails} -via_rule rail_via_rule
+#set_app_options -name plan.pgroute.disable_floating_removal -value true
+compile_pg -strategies {mesh_strat std_rails} -via_rule rail_via_rule
 
 
 #trim_pg_mesh

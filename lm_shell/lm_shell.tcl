@@ -27,6 +27,39 @@ if { $pdk == "saed32nm" } {
 	read_lef $pdk_dir/TSMCHOME/digital/Back_End/lef/tcbn65gplus_200a/lef/tcbn65gplus_9lmT2.lef
 	read_gds $pdk_dir/TSMCHOME/digital/Back_End/gds/tcbn65gplus_140a/tcbn65gplus.gds
 	process_workspaces -force -output ${pdk}.ndm
+} elseif { $pdk == "asap7" } {
+    set lib asap7sc7p5t_28_R_220121a
+	create_physical_lib -scale_factor 4000 -technology $techfile $lib 
+
+    set_app_options -name file.gds.port_type_map -value {{power ${power_net}} {ground ${ground_net}}}
+
+	#set lef_files [glob $pdk_dir/asap7sc7p5t_28/LEF/*.lef]
+	#set gds_files [glob $pdk_dir/asap7sc7p5t_28/GDS/*.gds]
+	set gds_files $pdk_dir/asap7sc7p5t_28/GDS/$lib.gds
+    set lef_files $pdk_dir/asap7sc7p5t_28/LEF/$lib.lef
+	#set db_files [glob $pdk_dir/asap7sc7p5t_28/DB/CCS/*.db]
+	set db_files [glob ~/asap7_move/asap7sc7p5t_28/DB/CCS/*.db]
+    set layermap $pdk_dir/asap7_snps-main/icc/asap07.GDS2A
+
+	read_gds -merge_action update -library $lib -layer_map $layermap $gds_files
+	read_lef -merge_action update -library $lib $lef_files
+    #read_db $db_files
+    start_gui
+    ### Need the conversion for big routing blockages
+    create_frame -convert_metal_blockage_to_zero_spacing {{M1 0 all}}
+    write_physical_lib -force
+    exit
+ 
+	#create_workspace ${pdk}_workspace
+    #set_app_options -name lib.workspace.keep_all_physical_cells -value true
+    #read_ndm $lib.ndm
+    ##set db_files [glob $pdk_dir/asap7sc7p5t_28/DB/CCS/*.db]
+	#set db_files [glob ~/asap7_move/asap7sc7p5t_28/DB/CCS/*.db]
+    ###set lib_files [glob libs/*RVT_TT_ccs_*.lib]
+    ##set lib_files libs/asap7sc7p5t_RVT_TT_ccs_211120.lib
+    ##read_lib $lib_files
+    #read_db $db_files
+	#process_workspaces -force -output ${lib}_frame_timing.ndm
 } elseif { $pdk == "tsmc28nm" } {
 	create_workspace -technology $techfile ${pdk}_workspace
 	read_db $link_library 

@@ -20,8 +20,6 @@ source -echo [file join $root_dir icc2_pnr/scripts/mcmm_setup.tcl]
 #set_dont_touch [get_lib_cells $CTS_LIB_CELL_PATTERN_LIST] false
 #set_lib_cell_purpose -include {optimization cts} [get_lib_cells $CTS_LIB_CELL_PATTERN_LIST]
 
-create_placement -floorplan
-
 place_opt 
 
 save_block -as ${lib_name}_place

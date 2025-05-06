@@ -4,7 +4,7 @@ set_app_options -name file.verilog.keep_unconnected_nets -value false
 source -echo ../set_env.tcl
 set is_fc 1
 set ref_libs $icc2_lib
-set lib_name TSMC65_RotaryCircuits
+set lib_name $top
 if { ![file exists ${lib_name}.dlib] } {
     create_lib -ref_libs $ref_libs -technology $techfile ${lib_name}.dlib 
 }
@@ -21,30 +21,31 @@ open_lib ${lib_name}.dlib
 #source rtwo.tcl
 
 #set ::block OneRing_24GHz
-set ::block gen_ring
-set ::num_segs 4
-set ::pre_segs 0
-set ::post_segs 2
-source rtwo.tcl
+#set ::block gen_ring
+#set ::num_segs 4
+#set ::pre_segs 0
+#set ::post_segs 2
+#source rtwo.tcl
+#set ref_libs [ list $root_dir/lc_shell/rtwo_cells $pdk_dir/TSMCHOME/digital/Back_End/milkyway/tsmc65nm.ndm $root_dir/fc_shell/RTWO_Blocks.dlib ]
 
 open_lib ${lib_name}.dlib 
-set ref_libs [ list $root_dir/lc_shell/rtwo_cells $pdk_dir/TSMCHOME/digital/Back_End/milkyway/tsmc65nm.ndm $root_dir/fc_shell/RTWO_Blocks.dlib ]
+set ref_libs $icc2_lib
 set_ref_libs -clear
 set_ref_libs -ref_libs $ref_libs
 
 lappend search_path ${incl_dirs}
-set const_dir    const/${top}
-set reports_dir  reports/${top}
-set output_dir   output/${top}
-set const_dir    const/${top}
-set work_dir     HDL_WORK/${top}
-set snapshot_dir snapshot/${top} 
-set lib_dir      lib 
+set const_dir    ${pdk}/const/${top}
+set reports_dir  ${pdk}/reports/${top}
+set output_dir   ${pdk}/output/${top}
+set const_dir    ${pdk}/const/${top}
+set work_dir     ${pdk}/HDL_WORK/${top}
+set snapshot_dir ${pdk}/snapshot/${top} 
+set lib_dir      ${pdk}/lib 
 
 ###### DC Synth Start #######
 define_hdl_library HDL_WORK -path $work_dir
 
-analyze -hdl_library HDL_WORK -autoread -recursive -top $top ../src/
+analyze -hdl_library HDL_WORK -autoread -recursive -top $top $src_dirs
 elaborate -hdl_library HDL_WORK $top
 
 #create_site_def -name unit -width 0.2 -height 1.8  
@@ -66,12 +67,12 @@ file mkdir $const_dir
 file mkdir $snapshot_dir
 file mkdir $lib_dir
 
-set is_clk 0 
+set is_clk 1 
 
 if { $is_clk == 1 } {
-    set clk clk_i
+    #set clk clk_i
     
-    create_clock $clk -name ideal_clock1 -period 0.083
+    create_clock $clk -name ideal_clock1 -period 5
     set_clock_latency 0.4 $clk -clock ideal_clock1
     set_clock_transition 0.1 ideal_clock1
     
@@ -80,33 +81,33 @@ if { $is_clk == 1 } {
     set_clock_uncertainty 0.05 ideal_clock1
 }
 
-set design_ports [ get_ports * ]
-set no_connect_port ""
-set one_connect_port ""
-foreach_in_collection port $design_ports {
-    if { [get_object_name $port] == "clk_i" } {
-        continue
-    }
-    set connected_net [get_nets [all_connected $port]]
-    if { [sizeof_collection $connected_net] == 0 } {
-        lappend no_connect_port [get_object_name $port]
-    } else {
-        set connect_point [all_connected $connected_net]
-        if { [sizeof_collection $connect_point] == 1 } {
-            lappend one_connect_port [get_object_name $port]
-        }
-    }
-}
-
-if { [llength $no_connect_port] != 0 } {
-    echo "The following ports are connected to nothing --> $no_connect_port\n"
-    remove_port $no_connect_port
-}
-
-if { [llength $one_connect_port] != 0 } {
-    echo "The following ports are connected to a net going nowhere --> $one_connect_port\n"
-    remove_port $one_connect_port
-}
+#set design_ports [ get_ports * ]
+#set no_connect_port ""
+#set one_connect_port ""
+#foreach_in_collection port $design_ports {
+#    if { [get_object_name $port] == "clk_i" } {
+#        continue
+#    }
+#    set connected_net [get_nets [all_connected $port]]
+#    if { [sizeof_collection $connected_net] == 0 } {
+#        lappend no_connect_port [get_object_name $port]
+#    } else {
+#        set connect_point [all_connected $connected_net]
+#        if { [sizeof_collection $connect_point] == 1 } {
+#            lappend one_connect_port [get_object_name $port]
+#        }
+#    }
+#}
+#
+#if { [llength $no_connect_port] != 0 } {
+#    echo "The following ports are connected to nothing --> $no_connect_port\n"
+#    remove_port $no_connect_port
+#}
+#
+#if { [llength $one_connect_port] != 0 } {
+#    echo "The following ports are connected to a net going nowhere --> $one_connect_port\n"
+#    remove_port $one_connect_port
+#}
 
 # Not a thing in FC
 #set_max_area 0

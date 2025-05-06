@@ -25,7 +25,7 @@ write_sdc -output $output_dir/${lib_name}_extracted.sdc
 #write_verilog -include all $output_dir/${lib_name}_extracted.v
 write_verilog -include pg_objects $output_dir/${lib_name}_extracted.v
 
-write_oasis -allow_design_mismatch -layer_map $layermap -layer_map_format icc_default $output_dir/${lib_name}.oasis
+#write_oasis -allow_design_mismatch -layer_map $layermap -layer_map_format icc_default $output_dir/${lib_name}.oasis
 
 ## Save the cel and report timing
 report_timing -max_paths 50 -delay max > $reports_dir/${lib_name}_extracted.setup.rpt

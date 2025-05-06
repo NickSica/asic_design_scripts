@@ -8,21 +8,24 @@ if { $app_name == "icc2_shell" } {
     #set snapshot_dir snapshot/${top}_no_sram
     #set lib_name              ${top}_no_sram
 
-    set const_dir       const/${top}
-    set output_dir     output/${top}
-    set reports_dir   reports/${top}
-    set snapshot_dir snapshot/${top}
-    set lib_dir lib
+    set const_dir    $pdk/const/${top}
+    set output_dir   $pdk/output/${top}
+    set reports_dir  $pdk/reports/${top}
+    set snapshot_dir $pdk/snapshot/${top}
+    set lib_dir      $pdk/lib
 
     file mkdir $output_dir
     file mkdir $reports_dir
     file mkdir $snapshot_dir
     file mkdir $lib_dir
+
+    lappend search_path ../dc_synth/$output_dir ../dc_synth/$const_dir
+} else {
+    lappend search_path ../fc_shell/$output_dir
 }
 
-set lib_name              ${top}
+set lib_name $top
 
-lappend search_path ../fc_shell/$output_dir
 set_app_options -name lib.configuration.icc_shell_exec -value "/home/tools/synopsys/icc/Q-2019.12-SP1/bin/icc_shell"
 
 set_host_options -max_cores 32
@@ -37,8 +40,9 @@ set icc2_dir [file join $root_dir icc2_pnr]
 	source -echo $icc2_dir/scripts/init_design.tcl
 	source -echo $icc2_dir/scripts/floorplan_icc.tcl
 	source -echo $icc2_dir/scripts/pg_plan.tcl
+	#source -echo $icc2_dir/scripts/pg_plan_tsmc65.tcl
 	source -echo $icc2_dir/scripts/place_icc.tcl
-	#source -echo $icc2_dir/scripts/cts_icc.tcl
+	source -echo $icc2_dir/scripts/cts_icc.tcl
 	source -echo $icc2_dir/scripts/route_icc.tcl
 	source -echo $icc2_dir/scripts/extract_icc.tcl
 #}

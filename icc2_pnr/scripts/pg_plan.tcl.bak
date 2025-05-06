@@ -1,0 +1,132 @@
+###########################################################################
+### Power Grid Planning
+###########################################################################
+create_net -power VDD
+create_net -ground VSS 
+
+set_attribute -objects [get_nets VDD] -name net_type -value power
+set_attribute -objects [get_nets VSS] -name net_type -value ground
+
+connect_pg_net -net VDD [get_pins -physical_context *VDD]
+connect_pg_net -net VSS [get_pins -physical_context *VSS]
+#connect_pg_net -net ${ground_net} [get_pins -physical_context */${power_net}]
+#connect_pg_net -net ${ground_net} [get_pins -physical_context */${ground_net}]
+#connect_pg_net -net ${power_net}  [get_terminals -hier -include_lib_cell */${power_net}*]
+#connect_pg_net -net ${ground_net} [get_terminals -hier -include_lib_cell */${ground_net}*]
+
+connect_pg_net -automatic
+
+# Pitch should be 1.4 or 1.8 but idk how to set it
+create_pg_std_cell_conn_pattern std_pattern -layers {M1}
+set_pg_strategy std_rails -core \
+    -pattern { \
+        {name: std_pattern} \
+        {nets: {VDD VSS}} \
+    }
+set_pg_strategy_via_rule rail_via_rule \
+    -via_rule { \
+        {{intersection: undefined} \
+         {via_master: NIL} \
+        } \
+    }
+
+compile_pg -strategies {std_rails} -via_rule rail_via_rule
+
+set macros [get_cells \
+   -physical_context -filter "is_soft_macro  && !is_physical_only"]
+   #-physical_context -filter "is_hard_macro  && !is_physical_only"]
+if { $macros != ""} {
+    create_pg_macro_conn_pattern macro_connect_pattern \
+       -pin_conn_type scattered_pin -nets {VDD VSS} \
+       -width {0.3 0.3} -layers {M5 M6}
+    set_pg_strategy macro_connect \
+       -pattern {{name: macro_connect_pattern}{nets: VDD VSS}} \
+       -macros "$macros"
+}
+
+# Create VDD/VSS Ring
+#{side_offset: {{side: 1 2 3 4}{offset: 3.5}}}
+create_pg_ring_pattern pg_ring -nets {VSS VDD} \
+	-horizontal_layer M9 -vertical_layer M8 \
+    -vertical_spacing 0.5 \
+    -corner_bridge true \
+    -via_rule { \
+         {{layers: M8} {layers: M9} {via_master: default}} \
+         {{intersection: undefined} {via_master: NIL}} \
+    }
+set_pg_strategy ring_strat -core \
+	-pattern { \
+          {name: pg_ring} \
+		  {nets: {VSS VDD}} \
+          {offset: {1 1}} \
+    } \
+	-extension { \
+		    {{side: 1 2 3 4}{direction: T L B R}{stop: design_boundary_and_generate_pin}} \
+    }
+
+#{{side: 2 4}{direction: L R}{stop: design_boundary_and_generate_pin}} \
+#{width: 1.5} {pitch: 15}
+
+compile_pg -strategies {ring_strat} -ignore_drc
+
+### M7 doesn't extend to rings correctly so remove for now
+#{{horizontal_layer: M7} {width: minimum} {pitch: 5} {spacing: interleaving}}
+create_pg_mesh_pattern pg_mesh \
+    -layers { \
+        {{vertical_layer: M8} {width: minimum} {pitch: 5} {spacing: interleaving}} \
+    } \
+    -via_rule { \
+         {{layers: M7} {layers: M8} {via_master: default}} \
+         {{intersection: undefined} {via_master: NIL}} \
+    }
+#{{horizontal_layer: M9} {width: minimum} {pitch: 15} {spacing: interleaving}} \
+         #{{layers: M1} {layers: M9} {via_master: default}} \
+         #{{layers: M2} {layers: M8} {via_master: default}} \
+         #{{layers: M2} {layers: M9} {via_master: default}} 
+set_pg_strategy mesh_strat -core \
+    -pattern { \
+        {pattern: pg_mesh} \
+        {nets: {VDD VSS}} \
+    } \
+    -extension { \
+        {{side: 1 2 3 4} \
+         {direction: T L B R} \
+         {stop: outermost_ring} \
+        }
+    }
+    #\
+    #-blockage {macros: all}
+set_pg_strategy_via_rule mesh_via_rule \
+    -via_rule { \
+       {{strategies: mesh_strat} \
+         {{existing: std_conn}} \
+       } \
+       {{strategies: mesh_strat} \
+        {{existing: ring}} \
+       } \
+       {{intersection: undefined} {via_master: NIL}} \
+    }
+
+compile_pg -strategies {mesh_strat} -via_rule mesh_via_rule
+
+#create_pg_special_pattern -insert_terminal_alignment_straps on terminal_strap_pat
+#set_pg_strategy terminal_strat -design_boundary -pattern {{name : terminal_strap_pat}{nets : {VDD VSS}}}
+#compile_pg -strategies terminal_strat
+       
+## Creates Power Strap 
+
+#create_pg_strap -net ${power_net} -layer M6 -start 3 -direction vertical -width 3  
+#create_pg_strap -net ${ground_net} -layer M6 -start 3 -direction vertical  -width 3
+
+#compile_pg -ignore_drc
+#compile_pg -strategies {vss_pg vss_rails} -ignore_drc
+#compile_pg -strategies {vdd_pg vdd_rails} -ignore_drc
+
+### Create Pins
+# can be constrained using set_block_pin_constraints and create_pin_constraint
+
+place_pins -self
+get_ports -filter physical_status==unplaced *
+### Save the design
+#
+save_block -as ${lib_name}_pg

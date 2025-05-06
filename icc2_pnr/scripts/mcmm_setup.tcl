@@ -15,28 +15,12 @@ set_parasitic_parameters -early_spec tlup_min -late_spec tlup_max
 #set_operating_conditions -max_library saed32rvt_frame_timing_ccs -max ss0p95v25c -min_library saed32rvt_frame_timing_ccs -min ff0p95v25c
 #set_operating_conditions -max_library saed32rvt_frame_timing_ccs -max ss0p95v25c -min_library saed32rvt_frame_timing_ccs -min ff0p95v25c
 
-if { $pdk == "saed32nm" } {
-    set_temperature 25
-    set_process_number 0.99
-    #set_process_label ss0p95v25c
-    set_voltage 0.95 -object_list VDD
-    ##set_voltage 0.95 -object_list VDDG
-    set_voltage 0.00 -object_list VSS
-} elseif { $pdk == "tsmc65nm" } {
-    set_temperature 25
-    set_process_number 0.99
-    #set_process_label ss0p95v25c
-    set_voltage 1 -object_list VDD
-    ##set_voltage 0.95 -object_list VDDG
-    set_voltage 0.00 -object_list VSS
-} elseif { $pdk == "tsmc28nm" } {
-    set_temperature 25.00
-    set_process_number 1.00
-    ##set_process_label ss0p95v25c
-    set_voltage 0.90 -object_list VDD
-    ###set_voltage 0.95 -object_list VDDG
-    set_voltage 0.00 -object_list VSS
-}
+set_temperature $temp
+set_process_number $proc_num
+#set_process_label $proc_label
+set_voltage $vdd_voltage -object_list $power_net
+##set_voltage 0.95 -object_list VDDG
+set_voltage $gnd_voltage -object_list $ground_net
 
 #source -echo [file join $root_dir icc2_pnr/constraints/ss_m40c.tcl]
 if { $app_name == "icc2_shell" } {
